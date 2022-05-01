@@ -13,6 +13,7 @@ public class CharacterControls : MonoBehaviour {
 	public float jumpHeight = 2.0f;
 	public float maxFallSpeed = 20.0f;
 	public float rotateSpeed = 25f; //Speed the player rotate
+	public string paramx,paramz;
 	private Vector3 moveDir;
 	public GameObject cam;
 	private Rigidbody rb;
@@ -24,13 +25,14 @@ public class CharacterControls : MonoBehaviour {
 	private bool wasStuned = false; //If player was stunned before get stunned another time
 	private float pushForce;
 	private Vector3 pushDir;
-
+	Animator animator;
 	public Vector3 checkPoint;
 	private bool slide = false;
 
 	void  Start (){
 		// get the distance to ground
 		distToGround = GetComponent<Collider>().bounds.extents.y;
+		animator = GetComponent<Animator>();
 	}
 	
 	bool IsGrounded (){
@@ -93,6 +95,7 @@ public class CharacterControls : MonoBehaviour {
 				if (IsGrounded() && Input.GetButton("Jump"))
 				{
 					rb.velocity = new Vector3(velocity.x, CalculateJumpVerticalSpeed(), velocity.z);
+					animator.SetTrigger("Jump");
 				}
 			}
 			else
@@ -130,7 +133,8 @@ public class CharacterControls : MonoBehaviour {
 		Vector3 v2 = v * cam.transform.forward; //Vertical axis to which I want to move with respect to the camera
 		Vector3 h2 = h * cam.transform.right; //Horizontal axis to which I want to move with respect to the camera
 		moveDir = (v2 + h2).normalized; //Global position to which I want to move in magnitude 1
-
+		animator.SetFloat(paramx,h);
+		animator.SetFloat(paramz,v);
 		RaycastHit hit;
 		if (Physics.Raycast(transform.position, -Vector3.up, out hit, distToGround + 0.1f))
 		{
@@ -154,7 +158,7 @@ public class CharacterControls : MonoBehaviour {
 	public void HitPlayer(Vector3 velocityF, float time)
 	{
 		rb.velocity = velocityF;
-
+		animator.SetTrigger("Hit");
 		pushForce = velocityF.magnitude;
 		pushDir = Vector3.Normalize(velocityF);
 		StartCoroutine(Decrease(velocityF.magnitude, time));
