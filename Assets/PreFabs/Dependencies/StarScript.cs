@@ -6,6 +6,8 @@ public class StarScript : MonoBehaviour
 {
     Animator animator;
     public ParticleSystem starexplosion;
+    public GameObject button;
+    public GameObject screenrenderer;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,10 +24,14 @@ public class StarScript : MonoBehaviour
         if (other.tag == "Player"){
             print("Player has entered the star");
             animator.SetTrigger("StarActive");
+            StartCoroutine(RestartGame());
         }
          
      }
-
+IEnumerator RestartGame(){
+    yield return new WaitForSeconds(2);
+    button.SetActive(true);
+    }
     void SpawnParticle () {
         starexplosion.Play();
         ParticleSystem.EmissionModule em = starexplosion.emission;
