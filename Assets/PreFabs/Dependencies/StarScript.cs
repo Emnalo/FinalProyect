@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class StarScript : MonoBehaviour
 {
     Animator animator;
     public ParticleSystem starexplosion;
-    public GameObject button;
-    public GameObject screenrenderer;
+    public GameObject FinishTimeline;
+    public GameObject Fireworks;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,15 +23,11 @@ public class StarScript : MonoBehaviour
 
     void OnTriggerEnter(Collider other) {
         if (other.tag == "Player"){
+            FinishTimeline.GetComponent<PlayableDirector>().Play();
+            Fireworks.SetActive(true);
             print("Player has entered the star");
             animator.SetTrigger("StarActive");
-            StartCoroutine(RestartGame());
         }
-         
-     }
-IEnumerator RestartGame(){
-    yield return new WaitForSeconds(2);
-    button.SetActive(true);
     }
     void SpawnParticle () {
         starexplosion.Play();
