@@ -8,7 +8,7 @@ public class StarScript : MonoBehaviour
     Animator animator;
     public ParticleSystem starexplosion;
     public GameObject FinishTimeline;
-    public GameObject Fireworks;
+    public GameObject BackgroundMusic;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,8 +23,8 @@ public class StarScript : MonoBehaviour
 
     void OnTriggerEnter(Collider other) {
         if (other.tag == "Player"){
+            BackgroundMusic.SetActive(false);
             FinishTimeline.GetComponent<PlayableDirector>().Play();
-            Fireworks.SetActive(true);
             print("Player has entered the star");
             animator.SetTrigger("StarActive");
         }

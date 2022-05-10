@@ -14,6 +14,7 @@ public class CharacterControls : MonoBehaviour {
 	public float maxFallSpeed = 20.0f;
 	public float rotateSpeed = 25f; //Speed the player rotate
 	public string paramx,paramz;
+	public AudioSource soundhit, soundjump;
 	private Vector3 moveDir;
 	public GameObject cam;
 	private Rigidbody rb;
@@ -95,6 +96,11 @@ public class CharacterControls : MonoBehaviour {
 				if (IsGrounded() && Input.GetButton("Jump"))
 				{
 					rb.velocity = new Vector3(velocity.x, CalculateJumpVerticalSpeed(), velocity.z);
+							if(soundjump.isPlaying){
+
+							}else{
+								soundjump.PlayOneShot(soundjump.clip);
+							}
 					animator.SetTrigger("Jump");
 				}
 			}
@@ -158,6 +164,11 @@ public class CharacterControls : MonoBehaviour {
 	public void HitPlayer(Vector3 velocityF, float time)
 	{
 		rb.velocity = velocityF;
+		if(soundhit.isPlaying){
+
+		}else{
+			soundhit.PlayOneShot(soundhit.clip);
+		}
 		animator.SetTrigger("Hit");
 		pushForce = velocityF.magnitude;
 		pushDir = Vector3.Normalize(velocityF);

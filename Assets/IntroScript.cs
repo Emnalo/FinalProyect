@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class IntroScript : MonoBehaviour
 {
     public Camera IntroCamera;
-    public Camera PlayerCamera;
+    public GameObject PlayerCamera;
     public GameObject screenRenderer;
     // Start is called before the first frame update
     public void FinishedIntro(){
@@ -18,7 +18,7 @@ public class IntroScript : MonoBehaviour
         screenRenderer.GetComponent<Animator>().SetTrigger("End");
         yield return new WaitForSeconds(1);
         IntroCamera.gameObject.SetActive(false);
-        PlayerCamera.gameObject.SetActive(true);
+        PlayerCamera.SetActive(true);
     }
     public void EndGame(){
         print("End Game");
